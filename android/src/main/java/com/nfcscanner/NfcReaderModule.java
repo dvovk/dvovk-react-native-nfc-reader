@@ -111,14 +111,14 @@ public class NfcReaderModule extends ReactContextBaseJavaModule implements Activ
     @Override
     public void onNewIntent(Intent intent) {
 
-        WritableMap writableMap = new WritableNativeMap();
-        writableMap.putString("status", TAG_DISCOVERED);
-        sendEvent(writableMap);
-
         Log.d(LOG_TAG, "onNewIntent " + intent);
         if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(intent.getAction())) {
             Tag tag = intent.getExtras().getParcelable(NfcAdapter.EXTRA_TAG);
             if (Arrays.asList(tag.getTechList()).contains("android.nfc.tech.IsoDep")) {
+
+                WritableMap writableMap = new WritableNativeMap();
+                writableMap.putString("status", TAG_DISCOVERED);
+                sendEvent(writableMap);
 
                 writableMap = new WritableNativeMap();
                 writableMap.putString("status", TAG_START_READING);
